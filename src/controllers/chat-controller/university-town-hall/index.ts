@@ -16,13 +16,17 @@ import { LOCATION, ELocation } from "../../../domain/menu-options/sign-up";
 
 import {
   SUCCESS_ANSWER,
+  RESTART_PROCESS,
   TICKET_CONFIRMATION,
+  ETicketConfirmationOptions,
 } from "../../../domain/menu-options/shared/success";
 import { extractValuesFromObject } from "../../../helpers";
 
-import { ticketConfirmation as ticketConfirmationTemplate } from "../../../templates/ticket-confirmation";
-
-const ticketConfirmationMenuOptions = { ...TICKET_CONFIRMATION };
+import {
+  puTicketConfirmationTemplate,
+  ticketConfirmation as ticketConfirmationTemplate,
+} from "../../../templates/ticket-confirmation";
+import { MenuOptions } from "../../../domain/menu-options/interface";
 
 const maintenanceCategoryOptions = extractValuesFromObject<string>(
   EMaintenanceCategoryKind
@@ -34,6 +38,10 @@ const maintenanceDepartmentRttOptions = extractValuesFromObject<string>(
 
 const maintenanceDepartmentMmeOptions = extractValuesFromObject<string>(
   EMaintenanceDepartmentMme
+);
+
+const ticketConfirmationOptions = extractValuesFromObject<string>(
+  ETicketConfirmationOptions
 );
 
 export const PuMaintenanceDepartmentKindState: State = {
@@ -84,23 +92,28 @@ export const PuMaintenanceCategoryState: State = {
 export const PuMaintenanceMoreDetailsState: State = {
   menu: PU_MAINTENANCE_MORE_DETAILS,
   next: (_, ticket) => {
-    const { message } = ticketConfirmationMenuOptions;
-
-    ticketConfirmationMenuOptions.message = [
-      message,
-      ticketConfirmationTemplate(ticket),
+    const message = [
+      TICKET_CONFIRMATION.message,
+      puTicketConfirmationTemplate(ticket),
+      " ",
     ].join("\n");
 
-    return TicketConfirmationState;
+    const menu: MenuOptions = { ...TICKET_CONFIRMATION, message };
+    return TicketConfirmationState({ menu });
   },
 };
 
-export const TicketConfirmationState: State = {
-  menu: ticketConfirmationMenuOptions,
-  next: () => AnswerPuMaintenanceState,
-};
+export const TicketConfirmationState = (params?: State): State => ({
+  menu: params.menu || TICKET_CONFIRMATION,
+  next: (choice) =>
+    ticketConfirmationOptions.includes(choice) && AnswerPuMaintenanceState,
+});
 
 export const AnswerPuMaintenanceState: State = {
   type: "service",
-  answer: () => SUCCESS_ANSWER.message,
+  answer: (choice) => {
+    if (choice === ETicketConfirmationOptions.AllRight)
+      return SUCCESS_ANSWER.message;
+    return RESTART_PROCESS.message;
+  },
 };
