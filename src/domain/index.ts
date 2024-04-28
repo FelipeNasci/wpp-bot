@@ -29,7 +29,7 @@ export type ChatUser = { phoneNumber: string; message: string };
 export type ActiveUsers = {
   payload: {
     createdAt: Date;
-    request: Request;
+    ticket: Request;
     currentState: State;
     previousStates?: State[];
   };
@@ -40,6 +40,7 @@ interface User {
   register?: string;
   userType?: string;
   email?: string;
+  department?: string;
 }
 
 interface Destination {
@@ -51,14 +52,24 @@ interface Destination {
   specificPlace?: string;
 }
 
+interface GticData {
+  category?: string;
+  description?: string;
+  connectionType?: string;
+  equipmentKind?: string;
+  equipmentId?: string;
+}
+
+interface Information extends GticData {}
+
 export type Ticket = {
   user?: User;
   destination?: Destination;
-
+  information?: Information;
   serviceType?: string;
+  description?: string;
   equipment?: string;
   equipmentId?: string;
-  description?: string;
 
   connectionType?: string;
 };

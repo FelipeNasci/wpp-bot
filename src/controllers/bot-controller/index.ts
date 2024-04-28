@@ -5,6 +5,7 @@ import {
   wrongAnswerMessage,
   exitMessage,
   welcomeToChatMessage,
+  restartChatMessage,
 } from "../../helpers/messages";
 import { inputListener } from "../../helpers/input-listeners";
 import {
@@ -16,14 +17,16 @@ import { time } from "../../../config";
 import { Actions, ActiveUsers, ChatUser, Request } from "../../domain";
 
 import { InMemoryDatabase } from "../../services/database/in-memory";
+import { ETicketConfirmationOptions } from "../../domain/menu-options/shared/success";
 
 const activeUsers = new InMemoryDatabase<string, ActiveUsers>({ time });
 
 const handleInitialPayload = (user: ChatUser) => {
   const state = InitialState;
+
   const payload: ActiveUsers["payload"] = {
     createdAt: new Date(),
-    request: {},
+    ticket: {},
     currentState: state,
     previousStates: [],
   };
@@ -50,11 +53,16 @@ const handleGoBack = (
 const handleUpdateState = (
   user: ChatUser,
   activeUser: ActiveUsers,
-  request: Request,
+  ticket: Request,
   nextState: State
 ) => {
   activeUser.payload.previousStates.push(activeUser.payload.currentState);
-  const payload = { ...activeUser.payload, request, currentState: nextState };
+
+  const payload: ActiveUsers["payload"] = {
+    ...activeUser.payload,
+    ticket,
+    currentState: nextState,
+  };
 
   activeUsers.set(user.phoneNumber, { payload });
 };
@@ -69,9 +77,9 @@ const handleFinalStage = (state: State, request: Request, user: ChatUser) => {
   return state;
 };
 
-const buildRequest = (
+const buildTicket = (
   choice: string,
-  request: Request,
+  ticketData: Request,
   currentState: State
 ): Request => {
   const {
@@ -80,17 +88,11 @@ const buildRequest = (
     ...rest
   } = inputListener(currentState.menu, choice) as any;
 
-  console.log({
-    inputListenerUser,
-    inputListenerDestination,
-    rest,
-  });
-
   return {
-    ...request,
+    ...ticketData,
     ...rest,
-    user: { ...request.user, ...inputListenerUser },
-    destination: { ...request.destination, ...inputListenerDestination },
+    user: { ...ticketData.user, ...inputListenerUser },
+    destination: { ...ticketData.destination, ...inputListenerDestination },
   };
 };
 
@@ -110,16 +112,9 @@ export function botController(user: ChatUser): string {
     const hasGoBackChoose = choice.toLowerCase() === Actions.goBack;
     const hasExitChoose = choice.toLowerCase() === Actions.exit;
 
-    const request = buildRequest(
-      choice,
-      activeUser.payload.request,
-      currentState
-    );
-    console.log("🚀 ~ file: index.ts:112 ~ botController ~ request:", {
-      request,
-    });
+    const ticket = buildTicket(choice, activeUser.payload.ticket, currentState);
 
-    const nextState = currentState?.next(choice, request);
+    const nextState = currentState?.next(choice, ticket);
     const isFinalStage = !nextState?.next;
 
     if (hasGoBackChoose) {
@@ -134,7 +129,7 @@ export function botController(user: ChatUser): string {
 
     if (!nextState) return wrongAnswerMessage(generateMenu(currentState.menu));
 
-    const { userType } = request.user;
+    const { userType } = ticket.user;
 
     const _isAllowedOption = isAllowedOption(
       currentState.menu.className,
@@ -146,15 +141,22 @@ export function botController(user: ChatUser): string {
       return wrongAnswerMessage(generateMenu(currentState.menu));
 
     if (isFinalStage) {
-      const { answer } = handleFinalStage(nextState, request, user);
-      return answer(choice);
+      const isDataOk = choice === ETicketConfirmationOptions.AllRight;
+
+      if (!isDataOk) {
+        const { menu } = handleInitialPayload(user);
+        return restartChatMessage(generateMenu(menu));
+      }
+
+      handleFinalStage(nextState, ticket, user);
+      return nextState.answer(choice);
     }
 
     if (userType) {
       const options = getAllowedMenu(
         nextState.menu.className,
         userType,
-        activeUser.payload.currentState.next(choice, request)
+        activeUser.payload.currentState.next(choice, ticket)
       );
 
       if (options) {
@@ -162,12 +164,12 @@ export function botController(user: ChatUser): string {
           ...nextState,
           menu: { ...nextState.menu, options },
         };
-        handleUpdateState(user, activeUser, request, newState);
+        handleUpdateState(user, activeUser, ticket, newState);
         return generateMenu(newState.menu);
       }
     }
 
-    handleUpdateState(user, activeUser, request, nextState);
+    handleUpdateState(user, activeUser, ticket, nextState);
 
     return generateMenu(nextState.menu);
   } catch (error) {

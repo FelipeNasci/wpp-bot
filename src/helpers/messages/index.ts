@@ -1,6 +1,7 @@
 import {
   actions,
   didNotUnderstand,
+  restartChat,
   welcomeToChat,
 } from "../../../assets/texts";
 
@@ -13,6 +14,11 @@ export const wrongAnswerMessage = (menu: string) => {
 
 export const welcomeToChatMessage = (menu: string) => {
   const { title, subtitle, goBack, exit } = welcomeToChat;
+  return [title, subtitle, goBack, exit, emptyLine, menu].join("\n");
+};
+
+export const restartChatMessage = (menu: string) => {
+  const { title, subtitle, goBack, exit } = restartChat;
   return [title, subtitle, goBack, exit, emptyLine, menu].join("\n");
 };
 

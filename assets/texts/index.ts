@@ -6,6 +6,14 @@ export const welcomeToChat = {
   exit: `💡 "sair" para encerrar o atendimento`,
 } as const;
 
+export const restartChat = {
+  title:
+    "Ok! Vamos reiniciar o atendimento 😁",
+  subtitle: "A qualquer momento você pode enviar:",
+  goBack: `⬅️ "voltar" para retornar ao menu anterior`,
+  exit: `💡 "sair" para encerrar o atendimento`,
+} as const;
+
 export const didNotUnderstand = {
   title: "Desculpe, não entendi o que você disse. 🤔",
   tryAgain: "🔄 Por favor, tente novamente.",

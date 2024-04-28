@@ -13,3 +13,14 @@ export const ticketConfirmation = (ticket: Ticket) => {
 
   return data.join("\n");
 };
+export const puTicketConfirmationTemplate = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*email*: ${ticket?.user?.email}`,
+    `Setor que deverá lhe atender: Subprefeitura Universitária`,
+    `*Local de atendimento*: ${ticket?.destination?.location} - ${ticket?.destination?.block} - ${ticket?.destination?.specificPlace}`,
+    `*O que deve ser feito*: Manutenção relacionada a ${ticket?.serviceType} - ${ticket.description}`,
+  ];
+
+  return data.join("\n");
+};
