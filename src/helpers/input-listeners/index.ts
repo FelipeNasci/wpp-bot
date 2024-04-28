@@ -72,16 +72,21 @@ export const mapInputToOptions = (
   switch (className) {
     case getClassName(GTIC):
       const servico = GTIC.options[input];
-      return { servico, destination: { department: TicketDestination.Gtic } };
+
+      return {
+        servico,
+        information: { category: servico },
+        destination: { department: TicketDestination.Gtic },
+      };
 
     case getClassName(INTERNET_ACCESS_KIND):
       const option = { "2": "cabo", "3": "wifi" };
       return {
         tipoConexao: option[input],
         tipoServico: option[input],
-
         serviceType: INTERNET_ACCESS_KIND.options[input],
         connectionType: INTERNET_ACCESS_KIND.options[input],
+        information: { connectionType: INTERNET_ACCESS_KIND.options[input] },
       };
 
     case getClassName(BLOCK_FAILURE_INTERNET_ACCESS):
@@ -91,7 +96,11 @@ export const mapInputToOptions = (
       return { sala: input, destination: { room: input } };
 
     case getClassName(MORE_DETAILS_FAILURE_INTERNET_ACCESS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+        information: { description: input },
+      };
 
     case getClassName(FULL_NAME):
       const name = input;
@@ -110,7 +119,7 @@ export const mapInputToOptions = (
       };
 
     case getClassName(EMAIL):
-      return { email: input };
+      return { email: input, user: { email: input } };
 
     case getClassName(ZIMBRA_KIND_SERVICE):
       return {
@@ -125,7 +134,11 @@ export const mapInputToOptions = (
       };
 
     case getClassName(EMAIL_GROUP_MORE_DETAILS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+        information: { description: input },
+      };
 
     case getClassName(EQUIPMENT_SERVICE_KIND):
       return {
@@ -134,13 +147,19 @@ export const mapInputToOptions = (
       };
 
     case getClassName(EQUIPMENT_MAINTENANCE_KIND):
+      const equipment = EQUIPMENT_MAINTENANCE_KIND.options[input];
       return {
-        dispositivo: EQUIPMENT_MAINTENANCE_KIND.options[input],
-        equipment: EQUIPMENT_MAINTENANCE_KIND.options[input],
+        dispositivo: equipment,
+        equipment,
+        information: { equipmentKind: equipment },
       };
 
     case getClassName(EQUIPMENT_ID):
-      return { tombamento: input, equipmentId: input };
+      return {
+        tombamento: input,
+        equipmentId: input,
+        information: { equipmentId: input },
+      };
 
     case getClassName(EQUIPMENT_BLOCK_LOCATION):
       return { bloco: input, destination: { block: input } };
@@ -149,7 +168,11 @@ export const mapInputToOptions = (
       return { sala: input, destination: { room: input } };
 
     case getClassName(EQUIPMENT_MORE_DETAILS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+        information: { description: input },
+      };
 
     case getClassName(SETUP_KIND):
       return {
@@ -158,7 +181,11 @@ export const mapInputToOptions = (
       };
 
     case getClassName(SETUP_EQUIPMENT_ID):
-      return { tombamento: input, equipmentId: input };
+      return {
+        tombamento: input,
+        equipmentId: input,
+        information: { equipmentId: input },
+      };
 
     case getClassName(SETUP_EQUIPMENT_BLOCK_LOCATION):
       return { bloco: input, destination: { block: input } };
@@ -167,7 +194,10 @@ export const mapInputToOptions = (
       return { sala: input, destination: { room: input } };
 
     case getClassName(SETUP_EQUIPMENT_MORE_DETAILS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+      };
 
     case getClassName(IT_MANAGEMENT):
       return {
@@ -176,12 +206,17 @@ export const mapInputToOptions = (
       };
 
     case getClassName(IT_MANAGEMENT_MORE_DETAILS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+        information: { description: input },
+      };
 
     case getClassName(ASCON):
       return {
         destination: { department: TicketDestination.Ascon },
         descricao: input,
+        information: { description: input },
       };
 
     case getClassName(ADMINISTRATIVE_CONSULTANCY):
@@ -196,6 +231,7 @@ export const mapInputToOptions = (
       return {
         destination: { department: TicketDestination.UniversityTownHall },
         departmentRequester: input,
+        user: { department: input },
       };
 
     case getClassName(PU_REGISTER_NUMBER_REQUESTER):
@@ -207,21 +243,21 @@ export const mapInputToOptions = (
     case getClassName(PU_MAINTENANCE_DEPARTMENT):
       return {
         maintenanceDepartment: input,
-        destination: {
-          department: input as Ticket["destination"]["department"],
-        },
+        destination: { specificPlace: input },
       };
 
     case getClassName(PU_MAINTENANCE_DEPARTMENT_RTT):
       return {
-        maintenanceDepartmentLocation: PU_MAINTENANCE_DEPARTMENT_RTT[input],
-        destination: { block: PU_MAINTENANCE_DEPARTMENT_RTT[input] },
+        maintenanceDepartmentLocation:
+          PU_MAINTENANCE_DEPARTMENT_RTT.options[input],
+        destination: { block: PU_MAINTENANCE_DEPARTMENT_RTT.options[input] },
       };
 
     case getClassName(PU_MAINTENANCE_DEPARTMENT_MME):
       return {
-        maintenanceDepartmentLocation: PU_MAINTENANCE_DEPARTMENT_MME[input],
-        destination: { block: PU_MAINTENANCE_DEPARTMENT_MME[input] },
+        maintenanceDepartmentLocation:
+          PU_MAINTENANCE_DEPARTMENT_MME.options[input],
+        destination: { block: PU_MAINTENANCE_DEPARTMENT_MME.options[input] },
       };
 
     case getClassName(PU_MAINTENANCE_CATEGORY):
@@ -231,7 +267,10 @@ export const mapInputToOptions = (
       };
 
     case getClassName(PU_MAINTENANCE_MORE_DETAILS):
-      return { descricao: input, description: input };
+      return {
+        descricao: input,
+        description: input,
+      };
 
     default:
       return {};
