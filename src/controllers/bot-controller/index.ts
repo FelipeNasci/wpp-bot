@@ -141,9 +141,9 @@ export function botController(user: ChatUser): string {
       return wrongAnswerMessage(generateMenu(currentState.menu));
 
     if (isFinalStage) {
-      const isDataOk = choice === ETicketConfirmationOptions.AllRight;
+      const restart = choice === ETicketConfirmationOptions.NoINeedRestart;
 
-      if (!isDataOk) {
+      if (restart) {
         const { menu } = handleInitialPayload(user);
         return restartChatMessage(generateMenu(menu));
       }

@@ -225,6 +225,8 @@ export const mapInputToOptions = (
           department: TicketDestination.AdministrativeConsultancy,
         },
         descricao: input,
+        description: input,
+        information: { description: input },
       };
 
     case getClassName(PU_DEPARTMENT_REQUESTER):

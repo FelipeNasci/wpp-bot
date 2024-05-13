@@ -24,3 +24,29 @@ export const puTicketConfirmationTemplate = (ticket: Ticket) => {
 
   return data.join("\n");
 };
+
+export const administrativeConsultancyConfirmationTemplate = (
+  ticket: Ticket
+) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*email*: ${ticket?.user?.email}`,
+    `Setor que deverá lhe atender: Assessoria Administrativa`,
+    `*Local de atendimento*: ${ticket?.destination?.location}`,
+    `*O que deve ser feito*: ${ticket.information.description}`,
+  ];
+
+  return data.join("\n");
+};
+
+export const asconConfirmationTemplate = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*email*: ${ticket?.user?.email}`,
+    `Setor que deverá lhe atender: ASCON - Assessoria de comunicação`,
+    `*Local de atendimento*: ${ticket?.destination?.location}`,
+    `*O que deve ser feito*: ${ticket.information.description}`,
+  ];
+
+  return data.join("\n");
+};
