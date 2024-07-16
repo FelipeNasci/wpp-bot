@@ -1,7 +1,7 @@
 import { MenuOptions } from "./interface";
 
 export enum EntrypointOptions {
-  GTIC = "1",
+  // GTIC = "1",
   ADMINISTRATIVE_CONSULTANCY = "1",
   ASCON = "2",
   SUBPREFEITRA = "3",
