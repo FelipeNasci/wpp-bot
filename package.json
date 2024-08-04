@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@wppconnect-team/wppconnect": "^1.32.3",
-    "axios": "^1.6.0",
+    "axios": "^1.7.3",
     "dotenv": "^16.3.1",
     "expiry-map": "^2.0.0",
     "form-data": "^4.0.0",
