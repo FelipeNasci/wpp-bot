@@ -12,8 +12,8 @@ importers:
         specifier: ^1.32.3
         version: 1.32.3(puppeteer-core@22.13.0)(typescript@5.4.5)
       axios:
-        specifier: ^1.6.0
-        version: 1.6.0
+        specifier: ^1.7.4
+        version: 1.7.4
       dotenv:
         specifier: ^16.3.1
         version: 16.3.1
@@ -637,11 +637,8 @@ packages:
     engines: {node: '>= 4.5.0'}
     hasBin: true
 
-  axios@1.6.0:
-    resolution: {integrity: sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==}
-
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   b4a@1.6.6:
     resolution: {integrity: sha512-5Tk1HLk6b6ctmjIkAcU/Ujv/1WqiDl0F0JdRCR80VsOcUlHcu7pWeWRlOqQLHfDEsVx9YH/aif5AG4ehoCtTmg==}
@@ -2961,7 +2958,7 @@ snapshots:
       '@wppconnect/wa-js': 3.6.0
       '@wppconnect/wa-version': 1.5.87
       atob: 2.1.2
-      axios: 1.7.2
+      axios: 1.7.4
       boxen: 5.1.2
       catch-exit: 1.2.2
       chalk: 4.1.2
@@ -3067,15 +3064,7 @@ snapshots:
 
   atob@2.1.2: {}
 
-  axios@1.6.0:
-    dependencies:
-      follow-redirects: 1.15.6
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.7.2:
+  axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
