@@ -22,7 +22,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@wppconnect-team/wppconnect": "^1.32.3",
+    "@wppconnect-team/wppconnect": "^1.33.1",
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
     "expiry-map": "^2.0.0",
