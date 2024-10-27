@@ -14,6 +14,21 @@ export const ticketConfirmation = (ticket: Ticket) => {
   return data.join("\n");
 };
 
+export const gticEquipmentTicketConfirmation = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*Tipo de vínculo*: ${ticket?.user?.userType}`,
+    `*email*: ${ticket?.user?.email}`,
+    `*Local*: ${ticket?.destination?.location} - ${ticket?.destination?.block} - ${ticket?.destination?.room}`,
+    `*Tipo de Serviço*: ${ticket?.information.category} - ${ticket?.information.serviceType} - ${ticket?.information.equipmentKind}`,
+    `*Equipamento*: ${ticket?.information.equipmentKind}`,
+    `*Identificação do Equipamento*: ${ticket?.information.equipmentId}`,
+    `*Detalhes*: ${ticket?.information.description}`,
+  ];
+
+  return data.join("\n");
+};
+
 export const gticZimbraTicketConfirmation = (ticket: Ticket) => {
   const data = [
     `*Nome*: ${ticket?.user?.name}`,
@@ -25,7 +40,6 @@ export const gticZimbraTicketConfirmation = (ticket: Ticket) => {
   ];
 
   return data.join("\n");
-
 };
 
 export const gticEmailGroupTicketConfirmation = (ticket: Ticket) => {
