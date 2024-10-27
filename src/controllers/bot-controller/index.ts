@@ -85,6 +85,7 @@ const buildTicket = (
   const {
     user: inputListenerUser,
     destination: inputListenerDestination,
+    information: inputListenerInformation,
     ...rest
   } = inputListener(currentState.menu, choice) as any;
 
@@ -93,6 +94,7 @@ const buildTicket = (
     ...rest,
     user: { ...ticketData.user, ...inputListenerUser },
     destination: { ...ticketData.destination, ...inputListenerDestination },
+    information: { ...ticketData.information, ...inputListenerInformation },
   };
 };
 
