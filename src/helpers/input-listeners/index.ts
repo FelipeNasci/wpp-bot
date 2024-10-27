@@ -153,6 +153,7 @@ export const mapInputToOptions = (
       return {
         tipoServico: EQUIPMENT_SERVICE_KIND.options[input],
         serviceType: EQUIPMENT_SERVICE_KIND.options[input],
+        information: { serviceType: EQUIPMENT_SERVICE_KIND.options[input] },
       };
 
     case getClassName(EQUIPMENT_MAINTENANCE_KIND):
