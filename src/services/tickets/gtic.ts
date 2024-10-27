@@ -11,7 +11,11 @@ export class GticTicket implements Ticket {
     [
       `*Nome*: ${data?.user?.name}`,
       `*Tipo de vínculo*: ${data?.user?.userType}`,
-      `*Local de atendimento:*: ${data?.destination?.location}`,
+      `*Unidade de atendimento:*: ${data?.destination?.location}`,
+      data?.destination?.block &&
+        `*Bloco de atendimento:*: ${data?.destination?.block}`,
+      data?.destination?.room &&
+        `*Bloco de atendimento:*: ${data?.destination?.room}`,
       serviceType ||
         `*Tipo de serviço*: ${data?.information?.serviceType} em ${data?.information.category}`,
       data.information.equipmentKind &&
@@ -48,6 +52,7 @@ export class GticTicket implements Ticket {
     const to = ticketConfig.gtic.email;
     const from = { name: ticket.user.name, email: ticket.user.email };
 
+    console.log({ text });
     EmailService.send({ from, to, subject, text, html });
   }
 
