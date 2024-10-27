@@ -5,7 +5,9 @@ import {
 } from "../../../../domain/menu-options/gtic/email-group";
 import { SUCCESS_ANSWER } from "../../../../domain/menu-options/shared/success";
 import { extractValuesFromObject } from "../../../../helpers";
+import { TicketConfirmationState } from "../../shared";
 import type { State } from "../../interface";
+import { gticZimbraTicketConfirmation } from "../../../../templates/ticket-confirmation";
 
 const emailsKind = extractValuesFromObject<string>(EEmailGroupKind);
 
@@ -16,7 +18,11 @@ export const EmailGroupKindState: State = {
 
 export const EmailGroupMoreDetailsState: State = {
   menu: EMAIL_GROUP_MORE_DETAILS,
-  next: () => AnswerEmailGroupState,
+  next: (_, ticket) =>
+    TicketConfirmationState(
+      AnswerEmailGroupState,
+      gticZimbraTicketConfirmation(ticket)
+    ),
 };
 
 export const AnswerEmailGroupState: State = {
