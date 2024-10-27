@@ -25,6 +25,20 @@ export const gticZimbraTicketConfirmation = (ticket: Ticket) => {
   ];
 
   return data.join("\n");
+
+};
+
+export const gticEmailGroupTicketConfirmation = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*Tipo de vínculo*: ${ticket?.user?.userType}`,
+    `*Seu Email*: ${ticket?.user?.email}`,
+    `*Você está em*: ${ticket?.destination?.location}`,
+    `*O que você precisa*: Entrar no ${ticket?.information.category}: ${ticket?.information?.serviceType} `,
+    `*Detalhes*: ${ticket?.information.description}`,
+  ];
+
+  return data.join("\n");
 };
 
 export const puTicketConfirmationTemplate = (ticket: Ticket) => {
