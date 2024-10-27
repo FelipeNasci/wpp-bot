@@ -129,7 +129,7 @@ export const mapInputToOptions = (
     case getClassName(ZIMBRA_KIND_SERVICE):
       return {
         tipoServico: ZIMBRA_KIND_SERVICE.options[input],
-        serviceType: ZIMBRA_KIND_SERVICE.options[input],
+        information: { serviceType: ZIMBRA_KIND_SERVICE.options[input] },
       };
 
     case getClassName(ZIMBRA_MORE_DETAILS):
