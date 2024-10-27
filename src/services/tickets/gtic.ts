@@ -7,19 +7,32 @@ export class GticTicket implements Ticket {
   private static instance: GticTicket;
   private constructor() {}
 
-  async create(data: TicketModel & any) {
-    console.log(JSON.stringify(data, null, 2));
-    const text = Object.entries(data)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join("\n");
+  private getRawText = (data: TicketModel) =>
+    [
+      `*Nome*: ${data?.user?.name}`,
+      `*Tipo de vínculo*: ${data?.user?.userType}`,
+      `*Local de atendimento:*: ${data?.destination?.location}`,
+      `*Tipo de serviço*: ${data?.information?.serviceType} em ${data?.information.category}`,
+      `*Detalhes*: ${data?.information.description}`,
+    ].join("\n");
 
-    const html = Object.entries(data)
-      .map(([key, value]) => `<b>${key}</b>: ${value}`)
+  private getHtmlText = (text: string) =>
+    text
+      .split("\n")
+      .map((line) => {
+        const [key, value] = line.split(":");
+        return `<b>${key.replace("*", "").replace("*", "")}</b>: ${value}`;
+      })
       .join("<br/>");
 
-    const subject = `${data.unidade} - ${data.information.category} - ${data.serviceType}`;
+  async create(ticket: TicketModel) {
+    const text = this.getRawText(ticket);
+    const html = this.getHtmlText(text);
+
+    const subject = `${ticket.destination.location} - ${ticket.information.category} - ${ticket.information.serviceType}`;
     const to = ticketConfig.gtic.email;
-    const from = { name: data.user.name, email: data.user.email };
+    const from = { name: ticket.user.name, email: ticket.user.email };
+
     EmailService.send({ from, to, subject, text, html });
   }
 

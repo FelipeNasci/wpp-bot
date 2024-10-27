@@ -3,7 +3,12 @@ import {
   ENTRYPOINT_MENU_OPTIONS,
   EntrypointOptions,
 } from "../../../src/domain/menu-options";
-import { ChatUser, Location, Ticket, TicketDestination } from "../../../src/domain";
+import {
+  ChatUser,
+  Location,
+  Ticket,
+  TicketDestination,
+} from "../../../src/domain";
 import { welcomeToChatMessage } from "../../../src/helpers/messages";
 import * as Signup from "../../../src/domain/menu-options/sign-up";
 import { generateMenu } from "../../../src/helpers";
@@ -53,20 +58,17 @@ const ticketMock: Ticket = {
   },
   destination: {
     location: Signup.LOCATION.options[ELocation.MME] as Location,
-    department: ENTRYPOINT_MENU_OPTIONS.options[EntrypointOptions.GTIC] as TicketDestination,
+    department: ENTRYPOINT_MENU_OPTIONS.options[
+      EntrypointOptions.GTIC
+    ] as TicketDestination,
   },
   information: {
+    category: GTIC.options[EGticOptions.EmailZimbra],
     description:
       "create a email institutional for me. The email address can be: jhon@ccae.ufpb.br",
+    serviceType: "Criação de email institucional",
   },
-  serviceType: "Criação de email institucional",
 };
-
-const descriptionMock = [
-  TICKET_CONFIRMATION.message,
-  gticZimbraTicketConfirmation(ticketMock),
-  " ",
-].join("\n");
 
 const useMock: ChatUser = { phoneNumber: "string", message: "" };
 
@@ -112,6 +114,12 @@ describe("GTIC Integration Tests", () => {
   });
 
   test("[step 9] - Input: Describe the Ticket - Answer: Ticket Confirmation", () => {
+    const descriptionMock = [
+      TICKET_CONFIRMATION.message,
+      gticZimbraTicketConfirmation(ticketMock),
+      " ",
+    ].join("\n");
+
     expect(setup(input.information.description)).toBe(
       generateMenu({ ...TICKET_CONFIRMATION, message: descriptionMock })
     );
