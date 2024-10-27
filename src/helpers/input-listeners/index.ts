@@ -139,6 +139,7 @@ export const mapInputToOptions = (
       return {
         tipoServico: EMAIL_GROUP_KIND.options[input],
         serviceType: EMAIL_GROUP_KIND.options[input],
+        information: { serviceType: EMAIL_GROUP_KIND.options[input] },
       };
 
     case getClassName(EMAIL_GROUP_MORE_DETAILS):
