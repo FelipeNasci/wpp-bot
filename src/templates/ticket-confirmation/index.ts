@@ -1,5 +1,7 @@
 import { Ticket } from "../../domain";
 
+const getInformation = (data: string) => data ?? "";
+
 export const ticketConfirmation = (ticket: Ticket) => {
   const data = [
     `*Nome*: ${ticket?.user?.name}`,
@@ -13,6 +15,20 @@ export const ticketConfirmation = (ticket: Ticket) => {
 
   return data.join("\n");
 };
+
+export const gticZimbraTicketConfirmation = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*Tipo de vínculo*: ${ticket?.user?.userType}`,
+    `*Seu Email*: ${ticket?.user?.email}`,
+    `*Você está localizado*: ${ticket?.destination?.location}`,
+    `*O que você precisa*: ${ticket?.serviceType}`,
+    `*Detalhes*: ${ticket?.information.description}`,
+  ];
+
+  return data.join("\n");
+};
+
 export const puTicketConfirmationTemplate = (ticket: Ticket) => {
   const data = [
     `*Nome*: ${ticket?.user?.name}`,

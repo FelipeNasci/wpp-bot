@@ -34,7 +34,7 @@ const prepareRequest = (data: any) => {
   const formData = new FormData();
 
   const location = getLocation(data.unidade);
-  const subject = `Solicitação de manutenção em ${data.unidade} - ${data.maintenanceDepartment} - ${data.tipoServico}`;
+  const subject = `Solicitação de manutenção em ${data.unidade} - ${data.maintenanceDepartment} - ${data.serviceType}`;
   const priority = "low";
 
   formData.append("name", data.name);
@@ -46,7 +46,7 @@ const prepareRequest = (data: any) => {
   formData.append("custom4", data.maintenanceDepartment);
   formData.append("custom5", data.maintenanceDepartment);
   formData.append("custom6", data.maintenanceDepartment);
-  formData.append("custom7", data.tipoServico);
+  formData.append("custom7", data.serviceType);
   formData.append("category", location);
   formData.append("message", data.descricao);
   formData.append("subject", subject);

@@ -14,7 +14,11 @@ import {
   MORE_DETAILS_FAILURE_INTERNET_ACCESS,
 } from "../../domain/menu-options/gtic/internet/failure";
 
-import { ZIMBRA_KIND_SERVICE } from "../../domain/menu-options/gtic/email-zimbra";
+import {
+  ZIMBRA_KIND_SERVICE,
+  ZIMBRA_MORE_DETAILS,
+} from "../../domain/menu-options/gtic/email-zimbra";
+
 import {
   EMAIL_GROUP_KIND,
   EMAIL_GROUP_MORE_DETAILS,
@@ -107,7 +111,8 @@ export const mapInputToOptions = (
       return { name, user: { name } };
 
     case getClassName(USER_TYPE):
-      return { tipo: USER_TYPE.options[input], user: { userType: input } };
+      const userType = USER_TYPE.options[input];
+      return { tipo: userType, user: { userType } };
 
     case getClassName(LOCATION):
       const location = LOCATION.options[input];
@@ -126,6 +131,9 @@ export const mapInputToOptions = (
         tipoServico: ZIMBRA_KIND_SERVICE.options[input],
         serviceType: ZIMBRA_KIND_SERVICE.options[input],
       };
+
+    case getClassName(ZIMBRA_MORE_DETAILS):
+      return { information: { description: input } };
 
     case getClassName(EMAIL_GROUP_KIND):
       return {
