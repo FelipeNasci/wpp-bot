@@ -1,8 +1,8 @@
 import { Ticket } from "../../services/tickets";
 import { TicketDestination, Request } from "../../domain";
 
-const create = async ({ destination, ...ticket }: Request) => {
-  const ticketService = getTicketServiceInstance(destination.department);
+const create = async (ticket: Request) => {
+  const ticketService = getTicketServiceInstance(ticket.destination.department);
   ticketService.create(ticket);
 };
 
@@ -19,4 +19,5 @@ const getTicketServiceInstance = (destination: string) => {
   if (!instance) throw new Error("Invalid destination");
   return mapTicketsService[destination];
 };
+
 export const TicketController = { create };
