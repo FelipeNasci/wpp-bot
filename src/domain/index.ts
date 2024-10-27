@@ -54,6 +54,7 @@ interface Destination {
 
 interface GticData {
   category?: string;
+  serviceType?: string;
   description?: string;
   connectionType?: string;
   equipmentKind?: string;
