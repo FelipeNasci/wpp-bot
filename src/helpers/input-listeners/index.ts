@@ -185,9 +185,14 @@ export const mapInputToOptions = (
       };
 
     case getClassName(SETUP_KIND):
+      const equipmentKind = SETUP_KIND.options[input];
       return {
-        tipoServico: SETUP_KIND.options[input],
-        serviceType: SETUP_KIND.options[input],
+        tipoServico: equipmentKind,
+        serviceType: equipmentKind,
+        information: {
+          serviceType: equipmentKind,
+          equipmentKind,
+        },
       };
 
     case getClassName(SETUP_EQUIPMENT_ID):
@@ -207,6 +212,7 @@ export const mapInputToOptions = (
       return {
         descricao: input,
         description: input,
+        information: { description: input },
       };
 
     case getClassName(IT_MANAGEMENT):
