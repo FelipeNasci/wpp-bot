@@ -73,7 +73,7 @@ const handleExit = (user: ChatUser) => {
 
 const handleFinalStage = (state: State, request: Request, user: ChatUser) => {
   activeUsers.delete(user.phoneNumber);
-  if (state?.type == "service") TicketController.create(request);
+  if (state?.type === "service") TicketController.create(request);
   return state;
 };
 
