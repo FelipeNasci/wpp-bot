@@ -52,7 +52,6 @@ export class GticTicket implements Ticket {
     const to = ticketConfig.gtic.email;
     const from = { name: ticket.user.name, email: ticket.user.email };
 
-    console.log({ text });
     EmailService.send({ from, to, subject, text, html });
   }
 

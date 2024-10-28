@@ -44,6 +44,19 @@ export const gticEquipmentTicketConfirmation = (ticket: Ticket) => {
   return data.join("\n");
 };
 
+export const gticItManagementTicketConfirmation = (ticket: Ticket) => {
+  const data = [
+    `*Nome*: ${ticket?.user?.name}`,
+    `*Tipo de vínculo*: ${ticket?.user?.userType}`,
+    `*email*: ${ticket?.user?.email}`,
+    `*Local*: ${ticket?.destination?.location}`,
+    `*Tipo de Serviço*: ${ticket?.information.category}`,
+    `*Detalhes*: ${ticket?.information.description}`,
+  ];
+
+  return data.join("\n");
+};
+
 export const gticZimbraTicketConfirmation = (ticket: Ticket) => {
   const data = [
     `*Nome*: ${ticket?.user?.name}`,
