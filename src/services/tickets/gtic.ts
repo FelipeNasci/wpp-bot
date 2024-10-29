@@ -9,20 +9,20 @@ export class GticTicket implements Ticket {
 
   private getRawText = (data: TicketModel, { serviceType }) =>
     [
-      `*Nome*: ${data?.user?.name}`,
-      `*Tipo de vínculo*: ${data?.user?.userType}`,
-      `*Unidade de atendimento:*: ${data?.destination?.location}`,
+      `Nome: ${data?.user?.name}`,
+      `Tipo de vínculo: ${data?.user?.userType}`,
+      `Unidade de atendimento:: ${data?.destination?.location}`,
       data?.destination?.block &&
-        `*Bloco de atendimento:*: ${data?.destination?.block}`,
+        `Bloco de atendimento:: ${data?.destination?.block}`,
       data?.destination?.room &&
-        `*Bloco de atendimento:*: ${data?.destination?.room}`,
+        `Sala de atendimento:: ${data?.destination?.room}`,
       serviceType ||
-        `*Tipo de serviço*: ${data?.information?.serviceType} em ${data?.information.category}`,
+        `Tipo de serviço: ${data?.information?.serviceType} em ${data?.information.category}`,
       data.information.equipmentKind &&
-        `\n*Tipo de equipamento*: ${data.information.equipmentKind}`,
+        `Tipo de equipamento: ${data.information.equipmentKind}`,
       data.information.equipmentId &&
-        `\n*Tombamento*: ${data.information.equipmentId}`,
-      `*Detalhes*: ${data?.information.description}`,
+        `Tombamento: ${data.information.equipmentId}`,
+      `Detalhes: ${data?.information.description}`,
     ].join("\n");
 
   private getHtmlText = (text: string) =>
@@ -30,7 +30,7 @@ export class GticTicket implements Ticket {
       .split("\n")
       .map((line) => {
         const [key, value] = line.split(":");
-        return `<b>${key.replace("*", "").replace("*", "")}</b>: ${value}`;
+        return `<b>${key}</b>: ${value}`;
       })
       .join("<br/>");
 

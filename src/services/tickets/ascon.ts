@@ -1,23 +1,37 @@
 import EmailService from "../email";
 import { Ticket } from "./interface";
 import { ticket as ticketConfig } from "../../../config";
+import { Ticket as TicketModel } from "../../domain";
 
 export class AsconTicket implements Ticket {
   private static instance: AsconTicket;
   private constructor() {}
 
-  async create(data: any) {
-    const text = Object.entries(data)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join("\n");
+  private getRawText = (data: TicketModel) =>
+    [
+      `Nome: ${data?.user?.name}`,
+      `Tipo de vínculo: ${data?.user?.userType}`,
+      `Unidade de atendimento: ${data?.destination?.location}`,
+      `Detalhes: ${data?.information.description}`,
+    ].join("\n");
 
-    const html = Object.entries(data)
-      .map(([key, value]) => `<b>${key}</b>: ${value}`)
+  private getHtmlText = (text: string) =>
+    text
+      .split("\n")
+      .map((line) => {
+        const [key, value] = line.split(":");
+        return `<b>${key}</b>: ${value}`;
+      })
       .join("<br/>");
 
-    const subject = `Solicitação ${data.name} ${data.unidade}`;
+  async create(data: TicketModel) {
+    const text = this.getRawText(data);
+    const html = this.getHtmlText(text);
+
+    const subject = `Novo chamado de ${data.user.name} | ${data.destination.location}`;
     const to = ticketConfig.ascon.email;
-    const from = { name: data.name, email: data.email };
+    const from = { name: data.user.name, email: data.user.email };
+    console.log({ from, to, subject, text, html });
     EmailService.send({ from, to, subject, text, html });
   }
 
