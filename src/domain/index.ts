@@ -41,6 +41,7 @@ interface User {
   userType?: string;
   email?: string;
   department?: string;
+  phone?: string;
 }
 
 interface Destination {
