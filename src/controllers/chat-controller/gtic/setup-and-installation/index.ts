@@ -8,6 +8,8 @@ import {
 } from "../../../../domain/menu-options/gtic/sertup-and-installation";
 import { SUCCESS_ANSWER } from "../../../../domain/menu-options/shared/success";
 import { extractValuesFromObject } from "../../../../helpers";
+import { gticsetupInstallationTicketConfirmation } from "../../../../templates/ticket-confirmation";
+import { TicketConfirmationState } from "../../shared";
 import type { State } from "../../interface";
 
 const installationsKind = extractValuesFromObject<string>(
@@ -36,9 +38,14 @@ export const SetupEquipmentHallLocationState: State = {
 
 export const SetupEquipmentMoreDetailsState: State = {
   menu: SETUP_EQUIPMENT_MORE_DETAILS,
-  next: () => AnswerSetupEquipmentState,
+  next: (_, ticket) =>
+    TicketConfirmationState(
+      AnswerSetupEquipmentState,
+      gticsetupInstallationTicketConfirmation(ticket)
+    ),
 };
 
 export const AnswerSetupEquipmentState: State = {
+  type: "service",
   answer: () => SUCCESS_ANSWER.message,
 };

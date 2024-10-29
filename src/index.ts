@@ -22,10 +22,15 @@ function handleClient(client) {
 }
 
 function messageHandler(client, message) {
+  if (!message?.body) return;
+
   const response = botController({
     phoneNumber: message.from,
     message: message.body,
   });
+
+  if (!response) return;
+
   sendMessage(client, message.from, response);
 }
 

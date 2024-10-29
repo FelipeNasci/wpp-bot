@@ -41,6 +41,7 @@ interface User {
   userType?: string;
   email?: string;
   department?: string;
+  phone?: string;
 }
 
 interface Destination {
@@ -54,6 +55,7 @@ interface Destination {
 
 interface GticData {
   category?: string;
+  serviceType?: string;
   description?: string;
   connectionType?: string;
   equipmentKind?: string;

@@ -1,23 +1,57 @@
 import EmailService from "../email";
 import { Ticket } from "./interface";
 import { ticket as ticketConfig } from "../../../config";
+import { Ticket as TicketModel } from "../../domain";
 
 export class GticTicket implements Ticket {
   private static instance: GticTicket;
   private constructor() {}
 
-  async create(data: any) {
-    const text = Object.entries(data)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join("\n");
+  private getRawText = (data: TicketModel, { serviceType }) =>
+    [
+      `Nome: ${data?.user?.name}`,
+      `Tipo de vínculo: ${data?.user?.userType}`,
+      `Unidade de atendimento:: ${data?.destination?.location}`,
+      data?.destination?.block &&
+        `Bloco de atendimento:: ${data?.destination?.block}`,
+      data?.destination?.room &&
+        `Sala de atendimento:: ${data?.destination?.room}`,
+      serviceType ||
+        `Tipo de serviço: ${data?.information?.serviceType} em ${data?.information.category}`,
+      data.information.equipmentKind &&
+        `Tipo de equipamento: ${data.information.equipmentKind}`,
+      data.information.equipmentId &&
+        `Tombamento: ${data.information.equipmentId}`,
+      `Detalhes: ${data?.information.description}`,
+    ].join("\n");
 
-    const html = Object.entries(data)
-      .map(([key, value]) => `<b>${key}</b>: ${value}`)
+  private getHtmlText = (text: string) =>
+    text
+      .split("\n")
+      .map((line) => {
+        const [key, value] = line.split(":");
+        return `<b>${key}</b>: ${value}`;
+      })
       .join("<br/>");
 
-    const subject = `${data.unidade} - ${data.servico} - ${data.tipoServico}`;
+  async create(ticket: TicketModel) {
+    const obj = {
+      "Grupo de Email": {
+        serviceType: "*Tipo de serviço*: Adicionar email ao grupo de email",
+        subject: `${ticket.destination.location} - ${ticket.information.category}`,
+      },
+    };
+
+    const ticke = obj[ticket.information.category];
+    const text = this.getRawText(ticket, { serviceType: ticke?.serviceType });
+    const html = this.getHtmlText(text);
+
+    const subject =
+      ticke?.subject ||
+      `${ticket.destination.location} - ${ticket.information.category} - ${ticket.information.serviceType}`;
     const to = ticketConfig.gtic.email;
-    const from = { name: data.name, email: data.email };
+    const from = { name: ticket.user.name, email: ticket.user.email };
+
     EmailService.send({ from, to, subject, text, html });
   }
 

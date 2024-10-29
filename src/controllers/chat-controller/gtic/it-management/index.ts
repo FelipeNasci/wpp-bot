@@ -5,7 +5,9 @@ import {
 } from "../../../../domain/menu-options/gtic/it-management";
 import { SUCCESS_ANSWER } from "../../../../domain/menu-options/shared/success";
 import { extractValuesFromObject } from "../../../../helpers";
+import { gticItManagementTicketConfirmation } from "../../../../templates/ticket-confirmation";
 import type { State } from "../../interface";
+import { TicketConfirmationState } from "../../shared";
 
 const itManagementOptions = extractValuesFromObject<string>(EItManagement);
 
@@ -17,7 +19,11 @@ export const ItManagementState: State = {
 
 export const ItManagementMoreDetailsState: State = {
   menu: IT_MANAGEMENT_MORE_DETAILS,
-  next: () => AnswerItManagementState,
+  next: (_, ticket) =>
+    TicketConfirmationState(
+      AnswerItManagementState,
+      gticItManagementTicketConfirmation(ticket)
+    ),
 };
 
 export const AnswerItManagementState: State = {

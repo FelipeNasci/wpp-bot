@@ -73,7 +73,7 @@ const handleExit = (user: ChatUser) => {
 
 const handleFinalStage = (state: State, request: Request, user: ChatUser) => {
   activeUsers.delete(user.phoneNumber);
-  if (state?.type == "service") TicketController.create(request);
+  if (state?.type === "service") TicketController.create(request);
   return state;
 };
 
@@ -85,6 +85,7 @@ const buildTicket = (
   const {
     user: inputListenerUser,
     destination: inputListenerDestination,
+    information: inputListenerInformation,
     ...rest
   } = inputListener(currentState.menu, choice) as any;
 
@@ -93,6 +94,7 @@ const buildTicket = (
     ...rest,
     user: { ...ticketData.user, ...inputListenerUser },
     destination: { ...ticketData.destination, ...inputListenerDestination },
+    information: { ...ticketData.information, ...inputListenerInformation },
   };
 };
 
