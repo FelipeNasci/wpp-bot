@@ -2,18 +2,18 @@ import { Ticket } from "./interface";
 import { ticket as ticketConfig } from "../../../config";
 import { Http } from "../http";
 import { LOCATION, ELocation } from "../../domain/menu-options/sign-up";
+import { Ticket as TicketModel } from "../../domain";
 import FormData from "form-data";
 
 export class UniversityTownHallTicket implements Ticket {
   private static instance: UniversityTownHallTicket;
   private constructor() {}
 
-  async create(data: any) {
+  async create(ticket: TicketModel) {
     const { url } = ticketConfig.universityTownHall;
-    const form = prepareRequest(data);
+    const form = prepareRequest(ticket);
 
     await Http.getInstance().post(url, form);
-    
   }
 
   public static getInstance() {
@@ -30,29 +30,33 @@ const getLocation = (locationUnit: string) => {
 
   return { [rioTinto]: "1", [mamanguape]: "3" }[locationUnit];
 };
-const prepareRequest = (data: any) => {
+
+const prepareRequest = (ticket: TicketModel) => {
   const formData = new FormData();
 
-  const location = getLocation(data.unidade);
-  const subject = `Solicitação de manutenção em ${data.unidade} - ${data.maintenanceDepartment} - ${data.serviceType}`;
+  const location = getLocation(ticket.destination.location);
+  const subject = `Solicitação de manutenção - ${ticket.information.serviceType} | ${ticket.destination.location} - ${ticket.destination.block} - ${ticket.destination.specificPlace} `;
   const priority = "low";
 
-  formData.append("name", data.name);
-  formData.append("email", data.email);
-  formData.append("priority", priority);
-  formData.append("custom1", data.departmentRequester);
-  formData.append("custom2", data.registerNumberRequester);
-  formData.append("custom3", data.departmentPhone);
-  formData.append("custom4", data.maintenanceDepartment);
-  formData.append("custom5", data.maintenanceDepartment);
-  formData.append("custom6", data.maintenanceDepartment);
-  formData.append("custom7", data.serviceType);
-  formData.append("category", location);
-  formData.append("message", data.descricao);
-  formData.append("subject", subject);
+  const form = {
+    name: ticket.user.name,
+    email: ticket.user.email,
+    priority: priority,
+    custom1: ticket.destination.department,
+    custom2: ticket.user.register,
+    custom3: ticket.user.phone,
+    custom4: ticket.destination.block,
+    custom5: ticket.destination.block,
+    custom6: ticket.destination.specificPlace,
+    custom7: ticket.information.serviceType,
+    category: location,
+    message: ticket.information.description,
+    subject: subject,
+    hx: "3",
+    hy: "",
+  };
 
-  formData.append("hx", "3");
-  formData.append("hy", "");
+  Object.entries(form).forEach(([key, value]) => formData.append(key, value));
 
   return formData;
 };

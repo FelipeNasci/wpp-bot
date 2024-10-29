@@ -1,3 +1,5 @@
+import { Ticket as TicketModel } from "../../domain";
+
 export interface Ticket {
-  create: (data: any) => Promise<void>;
+  create: (data: TicketModel) => Promise<void>;
 }
