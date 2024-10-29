@@ -10,7 +10,9 @@ import {
 } from "../../../../domain/menu-options/gtic/it-equipment";
 import { SUCCESS_ANSWER } from "../../../../domain/menu-options/shared/success";
 import { extractValuesFromObject } from "../../../../helpers";
+import { gticEquipmentTicketConfirmation } from "../../../../templates/ticket-confirmation";
 import type { State } from "../../interface";
+import { TicketConfirmationState } from "../../shared";
 
 const equipments = extractValuesFromObject<string>(EEquipmentType);
 const equipmentServiceTypes = extractValuesFromObject<string>(
@@ -45,7 +47,11 @@ export const EquipmentMaintenanceHallState: State = {
 
 export const EquipmentMaintenanceMoreDetailsState: State = {
   menu: EQUIPMENT_MORE_DETAILS,
-  next: () => AnswerEquipmentMaintenanceState,
+  next: (_, ticket) =>
+    TicketConfirmationState(
+      AnswerEquipmentMaintenanceState,
+      gticEquipmentTicketConfirmation(ticket)
+    ),
 };
 
 export const AnswerEquipmentMaintenanceState: State = {

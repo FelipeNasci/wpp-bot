@@ -14,7 +14,11 @@ import {
   MORE_DETAILS_FAILURE_INTERNET_ACCESS,
 } from "../../domain/menu-options/gtic/internet/failure";
 
-import { ZIMBRA_KIND_SERVICE } from "../../domain/menu-options/gtic/email-zimbra";
+import {
+  ZIMBRA_KIND_SERVICE,
+  ZIMBRA_MORE_DETAILS,
+} from "../../domain/menu-options/gtic/email-zimbra";
+
 import {
   EMAIL_GROUP_KIND,
   EMAIL_GROUP_MORE_DETAILS,
@@ -83,7 +87,6 @@ export const mapInputToOptions = (
       const option = { "2": "cabo", "3": "wifi" };
       return {
         tipoConexao: option[input],
-        tipoServico: option[input],
         serviceType: INTERNET_ACCESS_KIND.options[input],
         connectionType: INTERNET_ACCESS_KIND.options[input],
         information: { connectionType: INTERNET_ACCESS_KIND.options[input] },
@@ -107,7 +110,8 @@ export const mapInputToOptions = (
       return { name, user: { name } };
 
     case getClassName(USER_TYPE):
-      return { tipo: USER_TYPE.options[input], user: { userType: input } };
+      const userType = USER_TYPE.options[input];
+      return { tipo: userType, user: { userType } };
 
     case getClassName(LOCATION):
       const location = LOCATION.options[input];
@@ -123,14 +127,16 @@ export const mapInputToOptions = (
 
     case getClassName(ZIMBRA_KIND_SERVICE):
       return {
-        tipoServico: ZIMBRA_KIND_SERVICE.options[input],
-        serviceType: ZIMBRA_KIND_SERVICE.options[input],
+        information: { serviceType: ZIMBRA_KIND_SERVICE.options[input] },
       };
+
+    case getClassName(ZIMBRA_MORE_DETAILS):
+      return { information: { description: input } };
 
     case getClassName(EMAIL_GROUP_KIND):
       return {
-        tipoServico: EMAIL_GROUP_KIND.options[input],
         serviceType: EMAIL_GROUP_KIND.options[input],
+        information: { serviceType: EMAIL_GROUP_KIND.options[input] },
       };
 
     case getClassName(EMAIL_GROUP_MORE_DETAILS):
@@ -142,8 +148,8 @@ export const mapInputToOptions = (
 
     case getClassName(EQUIPMENT_SERVICE_KIND):
       return {
-        tipoServico: EQUIPMENT_SERVICE_KIND.options[input],
         serviceType: EQUIPMENT_SERVICE_KIND.options[input],
+        information: { serviceType: EQUIPMENT_SERVICE_KIND.options[input] },
       };
 
     case getClassName(EQUIPMENT_MAINTENANCE_KIND):
@@ -175,9 +181,13 @@ export const mapInputToOptions = (
       };
 
     case getClassName(SETUP_KIND):
+      const equipmentKind = SETUP_KIND.options[input];
       return {
-        tipoServico: SETUP_KIND.options[input],
-        serviceType: SETUP_KIND.options[input],
+        serviceType: equipmentKind,
+        information: {
+          serviceType: equipmentKind,
+          equipmentKind,
+        },
       };
 
     case getClassName(SETUP_EQUIPMENT_ID):
@@ -197,11 +207,11 @@ export const mapInputToOptions = (
       return {
         descricao: input,
         description: input,
+        information: { description: input },
       };
 
     case getClassName(IT_MANAGEMENT):
       return {
-        tipoServico: IT_MANAGEMENT.options[input],
         serviceType: IT_MANAGEMENT.options[input],
       };
 
@@ -232,47 +242,35 @@ export const mapInputToOptions = (
     case getClassName(PU_DEPARTMENT_REQUESTER):
       return {
         destination: { department: TicketDestination.UniversityTownHall },
-        departmentRequester: input,
         user: { department: input },
       };
 
     case getClassName(PU_REGISTER_NUMBER_REQUESTER):
-      return { registerNumberRequester: input, user: { register: input } };
+      return { user: { register: input } };
 
     case getClassName(PU_DEPARTMENT_PHONE_REQUESTER):
-      return { departmentPhone: input, destination: { phone: input } };
+      return { user: { phone: input } };
 
     case getClassName(PU_MAINTENANCE_DEPARTMENT):
-      return {
-        maintenanceDepartment: input,
-        destination: { specificPlace: input },
-      };
+      return { destination: { specificPlace: input } };
 
     case getClassName(PU_MAINTENANCE_DEPARTMENT_RTT):
       return {
-        maintenanceDepartmentLocation:
-          PU_MAINTENANCE_DEPARTMENT_RTT.options[input],
         destination: { block: PU_MAINTENANCE_DEPARTMENT_RTT.options[input] },
       };
 
     case getClassName(PU_MAINTENANCE_DEPARTMENT_MME):
       return {
-        maintenanceDepartmentLocation:
-          PU_MAINTENANCE_DEPARTMENT_MME.options[input],
         destination: { block: PU_MAINTENANCE_DEPARTMENT_MME.options[input] },
       };
 
     case getClassName(PU_MAINTENANCE_CATEGORY):
       return {
-        tipoServico: PU_MAINTENANCE_CATEGORY.options[input],
-        serviceType: PU_MAINTENANCE_CATEGORY.options[input],
+        information: { serviceType: PU_MAINTENANCE_CATEGORY.options[input] },
       };
 
     case getClassName(PU_MAINTENANCE_MORE_DETAILS):
-      return {
-        descricao: input,
-        description: input,
-      };
+      return { information: { description: input } };
 
     default:
       return {};
