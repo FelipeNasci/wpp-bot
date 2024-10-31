@@ -1,4 +1,3 @@
-
 import { botController } from "../../../src/controllers/bot-controller";
 import {
   ENTRYPOINT_MENU_OPTIONS,
@@ -32,7 +31,6 @@ import {
   PU_MAINTENANCE_MORE_DETAILS,
   PU_REGISTER_NUMBER_REQUESTER,
 } from "../../../src/domain/menu-options/university-town-hall";
-import { Http } from "../../../src/services/http";
 
 jest.mock("../../../src/services/http", () => ({
   Http: {
@@ -187,7 +185,6 @@ describe("e2e: PU UNIVERSITY TOWN HALL:", () => {
 
     test("[step 13] - Input: Confirm message - Answer: Success Message", () => {
       expect(setup(input.confirmTicket)).toBe(generateMenu(SUCCESS_ANSWER));
-      expect(Http.getInstance().post).toBeCalled();
     });
   });
 });

@@ -212,7 +212,7 @@ export const mapInputToOptions = (
 
     case getClassName(IT_MANAGEMENT):
       return {
-        serviceType: IT_MANAGEMENT.options[input],
+        information: { serviceType: IT_MANAGEMENT.options[input] },
       };
 
     case getClassName(IT_MANAGEMENT_MORE_DETAILS):

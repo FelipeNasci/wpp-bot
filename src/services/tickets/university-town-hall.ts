@@ -42,7 +42,7 @@ const prepareRequest = (ticket: TicketModel) => {
     name: ticket.user.name,
     email: ticket.user.email,
     priority: priority,
-    custom1: ticket.destination.department,
+    custom1: ticket.user.department,
     custom2: ticket.user.register,
     custom3: ticket.user.phone,
     custom4: ticket.destination.block,
