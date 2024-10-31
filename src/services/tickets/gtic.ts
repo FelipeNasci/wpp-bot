@@ -11,11 +11,11 @@ export class GticTicket implements Ticket {
     [
       `Nome: ${data?.user?.name}`,
       `Tipo de vínculo: ${data?.user?.userType}`,
-      `Unidade de atendimento:: ${data?.destination?.location}`,
+      `Unidade de atendimento: ${data?.destination?.location}`,
       data?.destination?.block &&
-        `Bloco de atendimento:: ${data?.destination?.block}`,
+        `Bloco de atendimento: ${data?.destination?.block}`,
       data?.destination?.room &&
-        `Sala de atendimento:: ${data?.destination?.room}`,
+        `Sala de atendimento: ${data?.destination?.room}`,
       serviceType ||
         `Tipo de serviço: ${data?.information?.serviceType} em ${data?.information.category}`,
       data.information.equipmentKind &&
@@ -23,7 +23,9 @@ export class GticTicket implements Ticket {
       data.information.equipmentId &&
         `Tombamento: ${data.information.equipmentId}`,
       `Detalhes: ${data?.information.description}`,
-    ].join("\n");
+    ]
+      .filter((value) => value)
+      .join("\n");
 
   private getHtmlText = (text: string) =>
     text
@@ -37,7 +39,7 @@ export class GticTicket implements Ticket {
   async create(ticket: TicketModel) {
     const obj = {
       "Grupo de Email": {
-        serviceType: "*Tipo de serviço*: Adicionar email ao grupo de email",
+        serviceType: "Tipo de serviço: Adicionar email ao grupo de email",
         subject: `${ticket.destination.location} - ${ticket.information.category}`,
       },
     };
@@ -52,6 +54,7 @@ export class GticTicket implements Ticket {
     const to = ticketConfig.gtic.email;
     const from = { name: ticket.user.name, email: ticket.user.email };
 
+    console.log({ from, to, subject, text, html });
     EmailService.send({ from, to, subject, text, html });
   }
 
