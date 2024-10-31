@@ -16,6 +16,7 @@ export class GticTicket implements Ticket {
         `Bloco de atendimento: ${data?.destination?.block}`,
       data?.destination?.room &&
         `Sala de atendimento: ${data?.destination?.room}`,
+
       serviceType ||
         `Tipo de serviço: ${data?.information?.serviceType} em ${data?.information.category}`,
       data.information.equipmentKind &&
@@ -26,6 +27,7 @@ export class GticTicket implements Ticket {
     ]
       .filter((value) => value)
       .join("\n");
+
 
   private getHtmlText = (text: string) =>
     text
@@ -54,7 +56,6 @@ export class GticTicket implements Ticket {
     const to = ticketConfig.gtic.email;
     const from = { name: ticket.user.name, email: ticket.user.email };
 
-    console.log({ from, to, subject, text, html });
     EmailService.send({ from, to, subject, text, html });
   }
 
