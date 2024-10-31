@@ -31,7 +31,7 @@ export class AsconTicket implements Ticket {
     const subject = `Novo chamado de ${data.user.name} | ${data.destination.location}`;
     const to = ticketConfig.ascon.email;
     const from = { name: data.user.name, email: data.user.email };
-    console.log({ from, to, subject, text, html });
+
     EmailService.send({ from, to, subject, text, html });
   }
 
