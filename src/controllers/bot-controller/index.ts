@@ -107,6 +107,9 @@ export function botController(user: ChatUser): string {
   }
 
   const choice = user.message;
+
+  if(choice === 'finish') return 'okay I understood'
+
   const { currentState } = activeUser.payload;
 
   try {
