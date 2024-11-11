@@ -891,10 +891,10 @@
   dependencies:
     "@types/node" "*"
 
-"@wppconnect-team/wppconnect@^1.35.0":
-  version "1.35.0"
-  resolved "https://registry.yarnpkg.com/@wppconnect-team/wppconnect/-/wppconnect-1.35.0.tgz#9809ba44954e83b5898dc023e218a2070e469a24"
-  integrity sha512-+SVFgpvTkjnCUCCzZPpnWy/8D1Vry7K3s6SbdNAlJJtRlNKv3s7W4Y5UwDWPdLAyRjUqYoyc/a/i7v0uqp9FBQ==
+"@wppconnect-team/wppconnect@^1.35.1":
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/@wppconnect-team/wppconnect/-/wppconnect-1.35.1.tgz#11ba0e6be13014cc13ee60e3a0249b7ec11a59f5"
+  integrity sha512-onmyrgM+UuWij2iYBj02JmJQPgeUjoGHXNHII1eCzDjy2QTSE0dhsj2wmZY5JSKNmwfEA6KU+zEpG+7j+quWvQ==
   dependencies:
     "@wppconnect/wa-js" "^3.12.1"
     "@wppconnect/wa-version" "^1.5.557"
