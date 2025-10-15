@@ -1,3 +1,12 @@
+<div align="center">
+   
+   ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+   ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+   ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+   ![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)
+   
+</div>
+
 # WPP-Bot 🤖
 
 A sophisticated WhatsApp chatbot designed for university environments, providing automated ticket management and routing across multiple departments through conversational interfaces.
